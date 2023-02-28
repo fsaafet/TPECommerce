@@ -3,11 +3,12 @@ package com.ECommerce.Ecommerce.Entity;
 
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.*;
 
@@ -22,14 +23,14 @@ public class Role {
 		  @JoinTable(name = "user_role_association",
 		   joinColumns = { @JoinColumn(name = "id_role") },
 		   inverseJoinColumns = { @JoinColumn(name = "id_user") })
-	
-		  private List<User>users =new ArrayList<>();
+	@JsonBackReference
+		  private List<User> users ;
 		 
 		
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	@Column(name="id_role")
-    private int idRole ;
+    private int id ;
 	private String roleName;
 	public Role(String roleName) {
 		super();

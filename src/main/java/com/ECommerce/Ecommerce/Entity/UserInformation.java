@@ -5,6 +5,7 @@ package com.ECommerce.Ecommerce.Entity;
 import javax.persistence.*;
 
 
+
 import lombok.*;
 
 
@@ -15,8 +16,8 @@ public class UserInformation {
 
 	
 @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-@Column(name="id_user_information")
-private int idUserInformation ;
+private int id ;
+
 private String adress;
 private String city;
 private String email;
@@ -30,9 +31,6 @@ public UserInformation(String adress, String city, String email, String phonenum
 }
 
 
-@OneToOne
-@JoinColumn(name="idUser")
-private User user;
 
 
 

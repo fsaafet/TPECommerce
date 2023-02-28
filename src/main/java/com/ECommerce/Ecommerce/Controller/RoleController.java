@@ -2,8 +2,9 @@ package com.ECommerce.Ecommerce.Controller;
 
 
 
-import java.util.List;
+import java.util.*;
 
+import org.hibernate.secure.internal.DisabledJaccServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ECommerce.Ecommerce.Entity.Role;
-import com.ECommerce.Ecommerce.Service.RoleService;
+import com.ECommerce.Ecommerce.Entity.*;
+import com.ECommerce.Ecommerce.Service.*;
 import com.github.javafaker.Faker;
 
 
@@ -25,7 +26,11 @@ import com.github.javafaker.Faker;
 public class RoleController {
 	@Autowired
 	RoleService rService;
+	@Autowired
+	UserService uService;
 	
+	@Autowired
+	CommandService cService;
 	
 	@GetMapping("/{id}")
 	public Role getRoleById(@PathVariable("id") int id) {
@@ -36,12 +41,19 @@ public class RoleController {
 	return rService.getAllRoles();
 	}
 	@PostMapping
-	public void postRole() {
+	public Role postRole() {
+	
 		Role r = new Role();
+		
 		Faker f=new Faker();
 		r.setRoleName(f.lorem().characters());
-		rService.create(r);
+	
+	rService.create(r);
+	   
+		return r;
 	}
+
+	
 	
 	@PutMapping("/{id}")
 	public void putRole(@PathVariable("id") int id,@RequestBody Role r ) {

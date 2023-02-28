@@ -1,5 +1,6 @@
 package com.ECommerce.Ecommerce.Controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ECommerce.Ecommerce.Entity.User;
 import com.ECommerce.Ecommerce.Entity.UserInformation;
 import com.ECommerce.Ecommerce.Service.UserInformationService;
+import com.ECommerce.Ecommerce.Service.UserService;
 import com.github.javafaker.Faker;
 @RestController
 @RequestMapping("/userinformation")
 public class UserInformatinController {
 	@Autowired
+	UserService uService;
+	
+	
+	@Autowired
 	UserInformationService uinService;
 	
 	
 	@GetMapping("/{id}")
-	public UserInformation getEleveById(@PathVariable("id") int id) {
+	public UserInformation getUserInformationById(@PathVariable("id") int id) {
 		return uinService.getById(id);
 	}
 	
@@ -32,17 +39,20 @@ public class UserInformatinController {
 		return uinService.getAll();
 	}
 	
-	@PostMapping
-	public void postUserInformation () {
+	@PostMapping()
+	public UserInformation postUserInformation () {
+	
+		
 		UserInformation uin=new UserInformation();
 		Faker  k=new Faker();
 		uin.setAdress(k.address().fullAddress());
 		uin.setCity(k.address().city());
 		uin.setEmail(k.lorem().characters());
 		uin.setPhonenumber(k.phoneNumber().phoneNumber());
-		uin.setIdUserInformation(k.idNumber().hashCode());
+		
 		
 		uinService.create(uin);
+		return uin;
 	}
 	
 	@PutMapping("/{id}")

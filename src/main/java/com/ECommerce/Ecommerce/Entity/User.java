@@ -1,8 +1,6 @@
 package com.ECommerce.Ecommerce.Entity;
 
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,55 +19,67 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.github.javafaker.Faker;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity @Table(name="users")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor   @ToString
+@Getter @Setter @AllArgsConstructor   @ToString
 public class User {
 
 	
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_user")
-	private int idUser;
+	private int id;
+	
 	private String login;
 	private String password;
 	private int connection;
 
 	@OneToMany
 	(targetEntity = Command.class,mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-	private List<Command>commands=new ArrayList<>();
+	 @JsonManagedReference
+	 private List<Command> commands = new ArrayList<>();
 
 	
 
 	 @ManyToMany
      @JoinTable(name = "user_role_association",
-    joinColumns = { @JoinColumn(name = "id_user") },
+     joinColumns = { @JoinColumn(name = "id_user") },
 		        inverseJoinColumns = { @JoinColumn(name = "id_role") })
-	
-		  private List<Role>roles =new ArrayList<>();
+	 @JsonManagedReference
+	   private List<Role> roles = new ArrayList<>();
 		 
 	
-	@OneToOne
-	@JoinColumn(name="idUserInformation")
-	private UserInformation userInformation;	
 
-	public User(String login, String password, int connection, List<Command> commands, List<Role> roles,
-			UserInformation userInformation) {
-		super();
-		this.login = login;
-		this.password = password;
-		this.connection = connection;
-		this.commands = commands;
-		this.roles = roles;
-		this.userInformation = userInformation;
+	 @OneToOne
+	 @JoinColumn(name="UseriNFORMATION_ID" , referencedColumnName = "id")
+	    private UserInformation userInformation;
+
+	public User() {
+		Faker faker=new Faker();
+		this.login = faker.name().fullName();
+		this.password = faker.code().asin();
+		this.connection = faker.number().randomDigit();
+		
+		
+		
+		
 	}
+
+	
+
+
+
+
+	
+
+	
 
 
 

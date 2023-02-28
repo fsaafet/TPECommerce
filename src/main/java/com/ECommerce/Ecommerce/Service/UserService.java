@@ -51,10 +51,6 @@ public class UserService {
 	}
 
 
-	public List<Role> getAllRoles() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+
 	
 }    
